@@ -35,17 +35,17 @@ string genCode(const RepeatedToken[] programm, const TargetEnum target, const ui
 				} break;
 
 				case IncVal : {
-					foreach(_;0 .. rt.count) result ~= "(*thisPtr)++;\n".indentBy(iLvl);
+					result ~= "(*thisPtr) += ".indentBy(iLvl) ~ rt.count.to!string ~" ;\n";
 				} break;
 				case DecVal : {
-					foreach(_;0 .. rt.count) result ~= "(*thisPtr)--;\n".indentBy(iLvl);
+					result ~= "(*thisPtr) -= ".indentBy(iLvl) ~ rt.count.to!string ~" ;\n";
 				} break;
 
 				case IncPtr : {
-					foreach(_;0 .. rt.count) result ~= "thisPtr++;\n".indentBy(iLvl);
+					result ~= "thisPtr += ".indentBy(iLvl) ~ rt.count.to!string ~" ;\n";
 				} break;
 				case DecPtr : {
-					foreach(_;0 .. rt.count) result ~= "thisPtr--;\n".indentBy(iLvl);
+					result ~= "thisPtr -= ".indentBy(iLvl) ~ rt.count.to!string ~" ;\n";
 				} break;
 
 				case InputVal : {
