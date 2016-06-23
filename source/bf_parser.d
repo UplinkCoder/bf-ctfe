@@ -25,7 +25,7 @@ const(RepeatedToken[]) parseBf(const string input) pure {
 	RepeatedToken[] result = [RepeatedToken(pos, BFTokenEnum.ProgrammBegin, 0)];
 
 
-	while(pos != input.length - 1) {	
+	while(pos != input.length) {	
 		final switch(input[pos++]) with (BFTokenEnum) {
 			case '>' :
 				if (result[$-1].token == IncPtr) {

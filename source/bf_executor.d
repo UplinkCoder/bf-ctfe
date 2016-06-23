@@ -1,6 +1,5 @@
 ﻿module bf_executor;
 
-
 import bf_parser;
 import bf_compiler;
 

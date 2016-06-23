@@ -19,7 +19,7 @@ enum helloWorldBf = `
 ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.
 `;
 import bf_executor;
-
+//pragma()
 static assert(execute!helloWorldBf() == cast(ubyte[]) "Hello World!\n");
 
 enum fbIntSource = `
@@ -116,4 +116,5 @@ enum fbIntSource = `
 -<<<+>>>[<<<->>>[-]]]]]]]]]]<<<[<+>[-]]<]>[-]]<<[->>>>>+<<<<<]>>>>>+>[
 -]]>>]`;
 
-
+enum addOne = ",+.";
+static assert(execute!addOne(cast(ubyte[])"a") == cast(ubyte[]) "b");

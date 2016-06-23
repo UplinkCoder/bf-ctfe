@@ -20,7 +20,7 @@ string indentBy(const string line, const uint iLvl) {
 
 string genCode(const RepeatedToken[] programm, const TargetEnum target, const uint cellSize = 4096) {
 	import std.conv : to;
-	string result = `((const ubyte[] input){ ubyte[] output; ubyte[` ~ cellSize.to!string ~ `] cells; ubyte* thisPtr = cells.ptr;` ~ "\n\n";
+	string result = `((const ubyte[] input){uint iPos; ubyte[] output; ubyte[` ~ cellSize.to!string ~ `] cells; ubyte* thisPtr = cells.ptr;` ~ "\n\n";
 	uint iLvl = 1;
 
 
@@ -63,7 +63,7 @@ string genCode(const RepeatedToken[] programm, const TargetEnum target, const ui
 
 		}
 
-		return result ~ "return output;})";
+		return result ~ "\nreturn output;})";
 	}
 
 	assert(0, "Target Not supported: " ~ to!string(target));
