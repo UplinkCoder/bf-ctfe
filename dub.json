@@ -1,0 +1,8 @@
+{
+	"name": "bf-ctfe",
+	"description": "A CTFE BrainFuck Interpreter in D ",
+	"copyright": "Copyright © 2016, Stefan Koch",
+	"authors": ["Stefan Koch"],
+	"dependencies": {
+	}
+}
