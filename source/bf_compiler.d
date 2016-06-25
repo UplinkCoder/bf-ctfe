@@ -36,11 +36,12 @@ const(uint) fastPow10(const uint val) pure nothrow {
 		case 1 : return 10;
 		case 2 : return 100;
 		case 3 : return 1000;
-		case 4 : return 100000;
-		case 5 : return 1000000;
-		case 6 : return 10000000;
-		case 7 : return 100000000;
-		case 8 : return 1000000000;
+		case 4 : return 10000;
+		case 5 : return 100000;
+		case 6 : return 1000000;
+		case 7 : return 10000000;
+		case 8 : return 100000000;
+		case 9 : return 1000000000;
 		default : assert(0, "value 10 ^ '" ~ (val).itos ~ "' is too big to fit into an uint");
 	}
 }
@@ -56,6 +57,8 @@ const(string) itos(const uint val) pure {
 
 	return cast(const(string)) result;
 }
+
+static assert(mixin(uint.max.itos) == uint.max);
 
 string genCode(const RepeatedToken[] programm, const TargetEnum target, const uint cellSize = 4096) {
 	string result = `((const ubyte[] input){uint iPos; ubyte[] output; ubyte[` ~ cellSize.itos ~ `] cells; ubyte* thisPtr = cells.ptr;` ~ "\n\n";
