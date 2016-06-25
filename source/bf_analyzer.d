@@ -40,3 +40,13 @@ const(int) maxNestingLevel(const RepeatedToken[] programm) {
 
 	return max;
 }
+
+const(bool) usesInput(const RepeatedToken[] programm) {
+	foreach(rt;programm) with(BFTokenEnum) {
+		if (rt.token == InputVal) {
+			return true;
+		}
+	}
+
+	return false;
+}
