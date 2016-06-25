@@ -15,14 +15,13 @@ enum BFTokenEnum {
 }
 
 struct RepeatedToken {
-	uint position;
 	BFTokenEnum token;
 	uint count = 1;
 }
 
 const(RepeatedToken[]) parseBf(const string input) pure {
 	uint pos;
-	RepeatedToken[] result = [RepeatedToken(pos, BFTokenEnum.ProgrammBegin, 0)];
+	RepeatedToken[] result = [RepeatedToken(BFTokenEnum.ProgrammBegin, 0)];
 
 
 	while(pos != input.length) {	
@@ -31,56 +30,56 @@ const(RepeatedToken[]) parseBf(const string input) pure {
 				if (result[$-1].token == IncPtr) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, IncPtr);
+					result ~= RepeatedToken(IncPtr);
 				}
 			break;
 			case '<' :
 				if (result[$-1].token == DecPtr) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, DecPtr);
+					result ~= RepeatedToken(DecPtr);
 				} 
 			break;
 			case '+' :
 				if (result[$-1].token == IncVal) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, IncVal);
+					result ~= RepeatedToken(IncVal);
 				}
 			break;
 			case '-' :
 				if (result[$-1].token == DecVal) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, DecVal);
+					result ~= RepeatedToken(DecVal);
 				} 
 			break;
 			case '.' :
 				if (result[$-1].token == OutputVal) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, OutputVal);
+					result ~= RepeatedToken(OutputVal);
 				}
 			break;
 			case ',' :
 				if (result[$-1].token == InputVal) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, InputVal);
+					result ~= RepeatedToken(InputVal);
 				}
 			break;
 			case '[' :
 				if (result[$-1].token == LoopBegin) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, LoopBegin);
+					result ~= RepeatedToken(LoopBegin);
 				}
 			break;
 			case ']' :
 				if (result[$-1].token == LoopEnd) {
 					result[$-1].count++;
 				} else {
-					result ~= RepeatedToken(pos, LoopEnd);
+					result ~= RepeatedToken(LoopEnd);
 				}
 			break;
 			case '\r' : pos++;
@@ -91,5 +90,5 @@ const(RepeatedToken[]) parseBf(const string input) pure {
 		}
 	}
 
-	return result ~ RepeatedToken(pos, BFTokenEnum.ProgrammEnd, 0);
+	return result ~ RepeatedToken(BFTokenEnum.ProgrammEnd, 0);
 }
