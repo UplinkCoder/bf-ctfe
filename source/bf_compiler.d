@@ -19,7 +19,8 @@ string indentBy(const string line, const uint iLvl) {
 }
 
 const(uint) fastLog10(const uint val) pure nothrow @nogc {
-	return (val < 10) ? 0 : 
+	return 
+	(val < 10) ? 0 : 
 	(val < 100) ? 1 : 
 	(val < 1000) ? 2 : 
 	(val < 10000) ? 3 :
