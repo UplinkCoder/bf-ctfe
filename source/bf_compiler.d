@@ -30,13 +30,27 @@ const(uint) fastLog10(const uint val) pure nothrow @nogc {
 	(val < 1000000000) ? 8 : 9;
 }
 
+const(uint) fastPow10(const uint val) pure nothrow {
+	switch(val) {
+		case 0 : return 1;
+		case 1 : return 10;
+		case 2 : return 100;
+		case 3 : return 1000;
+		case 4 : return 100000;
+		case 5 : return 1000000;
+		case 6 : return 10000000;
+		case 7 : return 100000000;
+		case 8 : return 1000000000;
+		default : assert(0, "value 10 ^ '" ~ (val).itos ~ "' is too big to fit into an uint");
+	}
+}
+
 
 const(string) itos(const uint val) pure {
-	import std.math : log10;
 	const length = cast(uint)fastLog10(val) + 1;
 	char[] result = new char[](length);
 	foreach(i;0 .. length) {
-		const _val = val / (10 ^^ i);
+		const _val = val / fastPow10(i);
 		result[length-i-1] = cast(char) ((_val % 10) + '0'); 
 	}
 
