@@ -47,16 +47,46 @@ const(uint) fastPow10(const uint val) pure nothrow {
 	}
 }
 
-
-const(string) itos(const uint val) pure {
+const(uint) fastPow10tbl(const uint val) pure nothrow {
+	static immutable tbl = [
+		1,
+		10,
+		100,
+		1000,
+		10000,
+		100000,
+		1000000,
+		10000000,
+		100000000,
+		1000000000,
+	] ;
+	if (val < 10) {
+		return tbl[val];
+	} else {
+		assert(0, "value 10 ^ '" ~ (val).itos ~ "' is too big to fit into an uint");
+	}
+}
+/**
+ * It returns a string to a mutable buffer.
+ * Meaning if you keep 
+ *  fiber_safe
+ */ 
+ref const(string) itos(const uint val) pure {
 	const length = cast(uint)fastLog10(val) + 1;
-	char[] result = new char[](length);
+	static const char[10] _result;
+	char[] result;
+
+	if (__ctfe) {
+		result = new char[](length);
+	} else {
+		result = cast(char[10]) _result;
+	}
 	foreach(i;0 .. length) {
 		const _val = val / fastPow10(i);
 		result[length-i-1] = cast(char) ((_val % 10) + '0'); 
 	}
 
-	return cast(const(string)) result;
+	return cast(const(string)) result[0 .. length];
 }
 
 static assert(mixin(uint.max.itos) == uint.max);
