@@ -1,5 +1,5 @@
 ﻿module bf_test;
-
+/*
 import bf_parser;
 
 bool checkNoRepeat (const RepeatedToken[] src) {
@@ -14,14 +14,14 @@ bool checkNoRepeat (const RepeatedToken[] src) {
 	
 	return true;
 }
-
+*/
 enum helloWorldBf = `
 ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.
 `;
 import bf_executor;
 //pragma()
-static assert(execute!helloWorldBf() == cast(ubyte[]) "Hello World!\n");
-
+static assert(execute!helloWorldBf == cast(ubyte[]) "Hello World!\n");
+auto hw = execute!helloWorldBf;
 enum fbIntSource = `
 >>>,[->+>+<<]>>[-<<+>>]>++++[<++++++++>-]<+<[->>+>>+<<<<]>>>>[-<<<<+>>
 >>]<<<[->>+>+<<<]>>>[-<<<+>>>]<<[>[->+<]<[-]]>[-]>[[-]<<<<->-<[->>+>>+
@@ -118,3 +118,4 @@ enum fbIntSource = `
 
 enum addOne = ",+.";
 static assert(execute!addOne(cast(ubyte[])"a") == cast(ubyte[]) "b");
+pragma(msg, cast(string) execute!helloWorldBf);
