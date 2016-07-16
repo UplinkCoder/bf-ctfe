@@ -21,25 +21,16 @@ string indentBy(const string line, const uint iLvl) pure {
 
 import bf_fastMath;
 
-/**
- * It returns a slice from a mutable buffer.
- * Meaning if you keep the return value around,
- * it will change after a second call to itos
- * This could also have funny effects when used with fibers.
- */ 
 string itos(const uint val) pure {
-	enum optimized_ = true;
 	immutable length = fastLog10(val) + 1;
 	char[10] result;
 	
-		foreach(i;0 .. length) {
-			immutable _val = val / fastPow10tbl[i];
-			result[length-i-1] = cast(char) ((_val % 10) + '0'); 
-		}
+	foreach(i;0 .. length) {
+		immutable _val = val / fastPow10tbl[i];
+		result[length-i-1] = cast(char) ((_val % 10) + '0'); 
+	}
 	
-	auto ret = cast(const(string)) result[0 .. length];
-
-	return ret;
+	return cast(const(string)) result[0 .. length];
 }
 
 static assert(mixin(uint.max.itos) == uint.max);
