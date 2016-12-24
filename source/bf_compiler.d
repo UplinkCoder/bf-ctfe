@@ -1,4 +1,4 @@
-﻿module bf_compiler;
+module bf_compiler;
 
 import bf_parser;
 
@@ -30,7 +30,7 @@ string itos(const uint val) pure {
 		result[length-i-1] = cast(char) ((_val % 10) + '0'); 
 	}
 	
-	return cast(const(string)) result[0 .. length];
+	return result[0 .. length].idup;
 }
 
 static assert(mixin(uint.max.itos) == uint.max);

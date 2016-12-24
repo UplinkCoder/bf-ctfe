@@ -1,4 +1,4 @@
-﻿module bf_parser;
+module bf_parser;
 
 enum BFTokenEnum {
 	IncPtr = '>',
