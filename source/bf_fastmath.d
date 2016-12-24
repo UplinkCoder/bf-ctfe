@@ -1,8 +1,7 @@
-﻿module bf_fastMath;
+module bf_fastMath;
 
 const(uint) fastLog10(const uint val) pure nothrow @nogc {
-	return 
-		(val < 10) ? 0 : 
+	return 	(val < 10) ? 0 :
 		(val < 100) ? 1 : 
 		(val < 1000) ? 2 : 
 		(val < 10000) ? 3 :
@@ -25,11 +24,3 @@ const(uint) fastLog10(const uint val) pure nothrow @nogc {
 	100000000,
 	1000000000,
 ] ;
-
-const(uint) fastPow10(const uint val) pure nothrow @nogc {
-	if (val < 10) {
-		return fastPow10tbl[val];
-	} else {
-		assert(0, "values bigger then 10 ^ 9 are too big to fit into an uint");
-	}
-}
