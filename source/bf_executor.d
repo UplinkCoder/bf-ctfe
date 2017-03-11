@@ -1,4 +1,4 @@
-﻿module bf_executor;
+module bf_executor;
 
 import bf_parser;
 import bf_analyzer;
@@ -10,12 +10,16 @@ import bf_compiler;
  Otherwise It aliases itself to a function representing the program. 
 */
 
-template execute(string programm) {
-	enum parsed = parseBf(programm);
-	static if (usesInput(parsed)) {
-		enum execute = mixin(parsed.genCode(TargetEnum.AnonymousFunction));
-	} else {
-		enum execute = mixin(parsed.genCode(TargetEnum.AnonymousFunction))([]);		
-	}
+template execute(string programm)
+{
+    enum parsed = parseBf(programm);
+    static if (usesInput(parsed))
+    {
+        enum execute = mixin(parsed.genCode(TargetEnum.AnonymousFunction));
+    }
+    else
+    {
+        enum execute = mixin(parsed.genCode(TargetEnum.AnonymousFunction))([]);
+    }
 
 }

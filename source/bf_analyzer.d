@@ -1,4 +1,4 @@
-﻿module bf_analyzer;
+module bf_analyzer;
 
 import bf_parser : RepeatedToken, BFTokenEnum;
 
@@ -23,30 +23,41 @@ uint countCells(const RepeatedToken[] programm) {
 }
 +/
 
-const(int) maxNestingLevel(const RepeatedToken[] programm) {
-	int max;
-	int currentNestingLevel;
+const(int) maxNestingLevel(const RepeatedToken[] programm)
+{
+    int max;
+    int currentNestingLevel;
 
-	foreach(rt;programm) with(BFTokenEnum) {
-		if (rt.token == LoopBegin) {
-			currentNestingLevel += rt.count;
-			if (currentNestingLevel > max) {
-				max = currentNestingLevel;
-			}
-		} else if (rt.token == LoopEnd) {
-			currentNestingLevel -= rt.count;
-		}
-	}
+    foreach (rt; programm)
+        with (BFTokenEnum)
+        {
+            if (rt.token == LoopBegin)
+            {
+                currentNestingLevel += rt.count;
+                if (currentNestingLevel > max)
+                {
+                    max = currentNestingLevel;
+                }
+            }
+            else if (rt.token == LoopEnd)
+            {
+                currentNestingLevel -= rt.count;
+            }
+        }
 
-	return max;
+    return max;
 }
 
-const(bool) usesInput(const RepeatedToken[] programm) {
-	foreach(rt;programm) with(BFTokenEnum) {
-		if (rt.token == InputVal) {
-			return true;
-		}
-	}
+const(bool) usesInput(const RepeatedToken[] programm) pure
+{
+    foreach (rt; programm)
+        with (BFTokenEnum)
+        {
+            if (rt.token == InputVal)
+            {
+                return true;
+            }
+        }
 
-	return false;
+    return false;
 }
