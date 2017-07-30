@@ -25,7 +25,8 @@ import bf_fastMath;
 string itos(const uint val) pure
 {
     immutable length = fastLog10(val) + 1;
-    char[10] result;
+    char[] result;
+    result.length = 10;
 
     foreach (i; 0 .. length)
     {
@@ -33,7 +34,7 @@ string itos(const uint val) pure
         result[length - i - 1] = cast(char)((_val % 10) + '0');
     }
 
-    return result[0 .. length].idup;
+    return cast(string) result[0 .. length];
 }
 
 static assert(mixin(uint.max.itos) == uint.max);
