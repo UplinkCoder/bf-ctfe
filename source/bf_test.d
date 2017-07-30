@@ -20,7 +20,16 @@ enum helloWorldBf = `
 `;
 import bf_executor;
 
-//pragma()
+
+string bf_to_code(string bf_src)
+{
+    import bf_parser;
+    import bf_compiler;
+
+    const RepeatedToken[] parsed = parseBf(bf_src);
+    return genCode(parsed, TargetEnum.AnonymousFunction);
+}
+
 static assert(execute!helloWorldBf == cast(ubyte[]) "Hello World!\n");
 auto hw = execute!helloWorldBf;
 enum fbIntSource = `

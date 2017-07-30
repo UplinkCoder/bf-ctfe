@@ -46,7 +46,7 @@ string genCode(const RepeatedToken[] programm, const TargetEnum target, const ui
 	uint iPos, oPos;
 	ubyte[] output; 
 	ubyte[` ~ cellSize.itos ~ `] cells; 
-	ubyte* thisPtr = cells.ptr;
+	uint cellPtr = 0;
 	output.length = 1024;` ~ "\n\n";
 
     uint iLvl = 1;
@@ -60,7 +60,7 @@ string genCode(const RepeatedToken[] programm, const TargetEnum target, const ui
             case LoopBegin:
                 {
                     foreach (_; 0 .. rt.count)
-                        result ~= "while(*thisPtr) {\n".indentBy(iLvl++);
+                        result ~= "while(cells[cellPtr]) {\n".indentBy(iLvl++);
                 }
                 break;
             case LoopEnd:
@@ -72,36 +72,36 @@ string genCode(const RepeatedToken[] programm, const TargetEnum target, const ui
 
             case IncVal:
                 {
-                    result ~= "(*thisPtr) += ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
+                    result ~= "cells[cellPtr] += ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
                 }
                 break;
             case DecVal:
                 {
-                    result ~= "(*thisPtr) -= ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
+                    result ~= "cells[cellPtr] -= ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
                 }
                 break;
 
             case IncPtr:
                 {
-                    result ~= "thisPtr += ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
+                    result ~= "cellPtr += ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
                 }
                 break;
             case DecPtr:
                 {
-                    result ~= "thisPtr -= ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
+                    result ~= "cellPtr -= ".indentBy(iLvl) ~ rt.count.itos ~ " ;\n";
                 }
                 break;
 
             case InputVal:
                 {
                     foreach (_; 0 .. rt.count)
-                        result ~= "*thisPtr = input[iPos++];\n".indentBy(iLvl);
+                        result ~= "cells[cellPtr] = input[iPos++];\n".indentBy(iLvl);
                 }
                 break;
             case OutputVal:
                 {
                     foreach (_; 0 .. rt.count)
-                        result ~= "output[oPos++] = *thisPtr;\n".indentBy(iLvl);
+                        result ~= "output[oPos++] = cells[cellPtr];\n".indentBy(iLvl);
                 }
                 break;
 
