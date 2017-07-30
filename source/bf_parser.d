@@ -15,6 +15,11 @@ enum BFTokenEnum
     ProgrammEnd,
 }
 
+/**
+represent RepeatedToken as uint
+[0 .. 24] count
+[24 .. 32] token
+*/
 struct RepeatedToken
 {
     uint _token;
@@ -35,100 +40,47 @@ RepeatedToken Token(BFTokenEnum token) pure
 {
     return cast(RepeatedToken)(token << 24 | 1);
 }
-/+
-represent RepeatedToken as uint
-[0 .. 24] count
-[24 .. 32] token
-+/
 
 const(RepeatedToken[]) parseBf(const string input) pure
 {
     uint pos;
-    RepeatedToken[] result = [Token(BFTokenEnum.ProgrammBegin)];
+    RepeatedToken[] result;
+    result.length = input.length + 2;
+    // the maximal number of diffrent tokens is equal to the chars in the input
+    // plus the begin and end token
+
+    result[0] = Token(BFTokenEnum.ProgrammBegin);
+    uint resultLen = 0;
 
     while (pos < input.length)
     {
+        uint lastToken = (result[resultLen] >> 24);
+        uint thisToken = BFTokenEnum.ProgrammEnd;
         final switch (input[pos++]) with (BFTokenEnum)
         {
         case '>':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == IncPtr)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(IncPtr)];
-            }
+            thisToken = IncPtr;
             break;
         case '<':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == DecPtr)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(DecPtr)];
-            }
+            thisToken = DecPtr;
             break;
         case '+':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == IncVal)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(IncVal)];
-            }
+            thisToken = IncVal;
             break;
         case '-':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == DecVal)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(DecVal)];
-            }
+            thisToken = DecVal;
             break;
         case '.':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == OutputVal)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(OutputVal)];
-            }
+            thisToken = OutputVal;
             break;
         case ',':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == InputVal)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(InputVal)];
-            }
+            thisToken = InputVal;
             break;
         case '[':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == LoopBegin)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(LoopBegin)];
-            }
+            thisToken = LoopBegin;
             break;
         case ']':
-            if ((result[$ - 1] & 0xFF_00_00_00) >> 24 == LoopEnd)
-            {
-                result[$ - 1]++;
-            }
-            else
-            {
-                result ~= [Token(LoopEnd)];
-            }
+            thisToken = LoopEnd;
             break;
         case '\r':
             pos++;
@@ -137,9 +89,19 @@ const(RepeatedToken[]) parseBf(const string input) pure
             //TODO handle lines and proper position informmation;
             break;
         }
+
+
+        if (lastToken == thisToken)
+        {
+            result[resultLen]++;
+        }
+        else if (thisToken != BFTokenEnum.ProgrammEnd)
+        {
+            result[++resultLen] = Token(cast(BFTokenEnum)thisToken);
+        }
+
     }
 
-    return result ~ [Token(BFTokenEnum.ProgrammEnd)];
+    result[++resultLen] = Token(BFTokenEnum.ProgrammEnd);
+    return result[0 .. resultLen + 1];
 }
-
-pragma(msg, parseBf("[,....]")[3].token);
