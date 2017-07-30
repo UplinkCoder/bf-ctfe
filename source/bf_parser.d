@@ -56,7 +56,7 @@ const(RepeatedToken[]) parseBf(const string input) pure
     {
         uint lastToken = (result[resultLen] >> 24);
         uint thisToken = BFTokenEnum.ProgrammEnd;
-        final switch (input[pos++]) with (BFTokenEnum)
+        switch (input[pos++]) with (BFTokenEnum)
         {
         case '>':
             thisToken = IncPtr;
@@ -88,6 +88,8 @@ const(RepeatedToken[]) parseBf(const string input) pure
         case '\n':
             //TODO handle lines and proper position informmation;
             break;
+        default : break;
+            // igonre non-bf input
         }
 
 
