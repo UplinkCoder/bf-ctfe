@@ -26,7 +26,7 @@ string itos(const uint val) pure
 {
     immutable length = fastLog10(val) + 1;
     char[] result;
-    result.length = 10;
+    result.length = length;
 
     foreach (i; 0 .. length)
     {
@@ -34,7 +34,7 @@ string itos(const uint val) pure
         result[length - i - 1] = cast(char)((_val % 10) + '0');
     }
 
-    return cast(string) result[0 .. length];
+    return cast(string) result;
 }
 
 static assert(mixin(uint.max.itos) == uint.max);
