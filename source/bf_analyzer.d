@@ -61,3 +61,29 @@ const(bool) usesInput(const RepeatedToken[] programm) pure
 
     return false;
 }
+
+//const (ReaptedToken[]) find(const RepeatedToken[] programm) pure
+const (uint[]) find_memset_zero(const RepeatedToken[] programm) pure
+{
+    uint[] p;
+    uint i;
+    auto length_minus_three = programm.length - 3;
+    while(i < length_minus_three) with (BFTokenEnum)
+    {
+        RepeatedToken rt = programm[i++];
+        if (rt.token == LoopBegin && rt.count == 1)
+        {
+            rt = programm[i++];
+            if (rt.token == DecVal && rt.count == 1)
+            {
+                rt = programm[i++];
+                if (rt.token == LoopEnd && rt.count == 1)
+                {
+                    p ~= i-3;
+                }
+            }
+        }
+    }
+
+    return p;
+}
