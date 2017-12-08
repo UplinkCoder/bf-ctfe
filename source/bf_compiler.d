@@ -20,7 +20,7 @@ string indentBy(const string line, const uint iLvl) pure
     return cast(string)(indent ~ line);
 }
 
-import bf_fastMath;
+import bf_fastmath;
 
 string itos(const uint val) pure
 {

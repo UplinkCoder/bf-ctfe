@@ -1,4 +1,4 @@
-module bf_fastMath;
+module bf_fastmath;
 
 const(uint) fastLog10(const uint val) pure nothrow @nogc
 {
